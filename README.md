@@ -1,1 +1,1 @@
-# discord-react-redux-firebase
+Simple discord clone with React, Redux, Firebase implementations
