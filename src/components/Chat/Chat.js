@@ -3,7 +3,7 @@ import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import GifIcon from '@material-ui/icons/Gif';
 import firebase from 'firebase';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
   selectChannelId,
@@ -21,6 +21,7 @@ function Chat() {
   const channelName = useSelector(selectChannelName);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([]);
+  const anchor = useRef();
 
   useEffect(() => {
     if (channelId) {
@@ -39,6 +40,10 @@ function Chat() {
     }
   }, [channelId]);
 
+  useEffect(() => {
+    anchor.current.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
   const handleInput = (e) => {
     setInput(e.target.value);
   };
@@ -51,6 +56,8 @@ function Chat() {
         message: input,
         user,
       });
+      // let chatMessages = document.querySelector('.chat__messages');
+      // chatMessages.scrollTop = chatMessages.scrollHeight;
 
       setInput('');
     }
@@ -61,14 +68,17 @@ function Chat() {
       <ChatHeader channelName={channelName} />
 
       <div className='chat__messages'>
-        {messages.map(({ id, message, timestamp }) => (
-          <Message
-            key={id}
-            message={message}
-            timestamp={timestamp}
-            user={user}
-          />
-        ))}
+        <div className='inner'>
+          {messages.map(({ id, message, timestamp }) => (
+            <Message
+              key={id}
+              message={message}
+              timestamp={timestamp}
+              user={user}
+            />
+          ))}
+        </div>
+        <div ref={anchor}></div>
       </div>
 
       <div className='chat__input'>
