@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { selectUser } from '../../features/user/userSlice';
+import { auth } from '../../firebase';
 import UserAvatar from '../User/UserAvatar';
 import './Settings.css';
 import SettingsListItem from './SettingsListItem';
@@ -63,6 +64,13 @@ function Settings() {
             </ListItem>
           </List>
           <Button variant='contained'>Update</Button>
+          <Button
+            variant='contained'
+            color='secondary'
+            onClick={() => auth.signOut()}
+          >
+            Log out
+          </Button>
         </div>
       </Container>
     </div>

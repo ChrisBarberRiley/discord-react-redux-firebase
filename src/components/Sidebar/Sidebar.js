@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { selectBoardName } from '../../features/app/appSlice';
 import { selectUser } from '../../features/user/userSlice';
-import { auth, db } from '../../firebase';
+import { db } from '../../firebase';
 import './Sidebar.css';
 import SidebarChannel from './SidebarChannel';
 
@@ -67,7 +67,7 @@ function Sidebar() {
       </div>
 
       <div className='sidebar__profile'>
-        <Avatar src={user.photo} onClick={() => auth.signOut()} />
+        <Avatar src={user.photo} />
         <div className='sidebar__profileInfo'>
           <h3>{user.displayName}</h3>
           <p>#{user.uid.substring(0, 5)}</p>
