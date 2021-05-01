@@ -7,6 +7,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { selectBoardName } from '../../features/app/appSlice';
 import { selectUser } from '../../features/user/userSlice';
 import { auth, db } from '../../firebase';
 import './Sidebar.css';
@@ -14,6 +15,7 @@ import SidebarChannel from './SidebarChannel';
 
 function Sidebar() {
   const user = useSelector(selectUser);
+  const boardName = useSelector(selectBoardName);
   const [channels, setChannels] = useState([]);
 
   useEffect(() => {
@@ -40,7 +42,7 @@ function Sidebar() {
   return (
     <div className='sidebar'>
       <div className='sidebar__top'>
-        <h3>Tech team</h3>
+        <h3>{boardName}</h3>
         <ExpandMoreIcon />
       </div>
 

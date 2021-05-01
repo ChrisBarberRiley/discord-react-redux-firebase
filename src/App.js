@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
@@ -6,11 +6,13 @@ import Chat from './components/Chat/Chat';
 import Login from './components/Login/Login';
 import Settings from './components/Settings/Settings';
 import Sidebar from './components/Sidebar/Sidebar';
+import { setBoardId, setBoardName } from './features/app/appSlice';
 import { login, logout, selectUser } from './features/user/userSlice';
-import { auth } from './firebase';
+import { auth, db } from './firebase';
 
 function App() {
   const user = useSelector(selectUser);
+  const [board, setBoard] = useState(0);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -24,11 +26,34 @@ function App() {
             displayName: authUser.displayName,
           })
         );
+
+        db.collection('users')
+          .doc(authUser.uid)
+          .get()
+          .then((docRef) => {
+            setBoard(docRef.data().boards[0]);
+            dispatch(
+              setBoardId({
+                boardId: board,
+              })
+            );
+          });
+
+        db.collection('boards')
+          .doc(board)
+          .get()
+          .then((docRef) => {
+            dispatch(
+              setBoardName({
+                boardName: docRef.data().boardName,
+              })
+            );
+          });
       } else {
         dispatch(logout());
       }
     });
-  }, [dispatch]);
+  }, [dispatch, board]);
 
   return (
     <Router>
