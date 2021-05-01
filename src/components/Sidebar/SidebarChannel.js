@@ -4,18 +4,20 @@ import './SidebarChannel.css';
 
 function SidebarChannel({ id, channelName }) {
   const dispatch = useDispatch();
+
+  const selectChannel = () => {
+    dispatch(
+      setChannelInfo({
+        channelId: id,
+        channelName,
+      })
+    );
+
+    document.title = `${channelName}`;
+  };
+
   return (
-    <div
-      className='sidebarChannel'
-      onClick={() =>
-        dispatch(
-          setChannelInfo({
-            channelId: id,
-            channelName,
-          })
-        )
-      }
-    >
+    <div className='sidebarChannel' onClick={selectChannel}>
       <h4>
         <span className='sidebarChannel__hash'>#</span> {channelName}
       </h4>

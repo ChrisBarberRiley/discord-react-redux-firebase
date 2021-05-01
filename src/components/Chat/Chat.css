@@ -38,5 +38,6 @@
 }
 
 .chat__inputIcons > .MuiSvgIcon-root{
+  font-size: 30px;
   padding: 5px;
 }

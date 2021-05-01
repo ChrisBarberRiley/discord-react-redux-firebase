@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import Chat from './components/Chat/Chat';
 import Login from './components/Login/Login';
+import Settings from './components/Settings/Settings';
 import Sidebar from './components/Sidebar/Sidebar';
 import { login, logout, selectUser } from './features/user/userSlice';
 import { auth } from './firebase';
@@ -29,19 +31,28 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div className='app'>
-      {user ? (
-        <>
-          {/* Sidebar */}
-          <Sidebar />
+    <Router>
+      <Switch>
+        <Route exact path='/'>
+          <div className='app'>
+            {user ? (
+              <>
+                {/* Sidebar */}
+                <Sidebar />
 
-          {/* Main chat area */}
-          <Chat />
-        </>
-      ) : (
-        <Login />
-      )}
-    </div>
+                {/* Main chat area */}
+                <Chat />
+              </>
+            ) : (
+              <Login />
+            )}
+          </div>
+        </Route>
+        <Route path='/settings'>
+          <Settings />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 

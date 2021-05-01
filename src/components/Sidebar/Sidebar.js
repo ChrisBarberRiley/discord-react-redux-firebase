@@ -6,6 +6,7 @@ import MicIcon from '@material-ui/icons/Mic';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { selectUser } from '../../features/user/userSlice';
 import { auth, db } from '../../firebase';
 import './Sidebar.css';
@@ -73,7 +74,9 @@ function Sidebar() {
         <div className='sidebar__profileIcons'>
           <MicIcon />
           <HeadsetIcon />
-          <SettingsIcon />
+          <Link to='settings'>
+            <SettingsIcon />
+          </Link>
         </div>
       </div>
     </div>

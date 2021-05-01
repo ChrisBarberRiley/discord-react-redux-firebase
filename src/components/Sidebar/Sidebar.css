@@ -60,5 +60,6 @@
 }
 
 .sidebar__profileIcons > .MuiSvgIcon-root {
-  padding: 10px;
+  font-size: 30px;
+  padding: 5px;
 }
