@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { selectBoardId, selectBoardName } from '../../features/app/appSlice';
 import { selectUser } from '../../features/user/userSlice';
 import { db } from '../../firebase';
+import Boards from '../Boards/Boards';
 import './Sidebar.css';
 import SidebarChannel from './SidebarChannel';
 
@@ -30,7 +31,7 @@ function Sidebar() {
           }))
         );
       });
-  }, []);
+  }, [boardId]);
 
   const handleAddChannel = () => {
     const channelName = prompt('enter a new channel name');
@@ -44,48 +45,55 @@ function Sidebar() {
   };
 
   return (
-    <div className='sidebar'>
-      <div className='sidebar__top'>
-        <h3>{boardName}</h3>
-        <ExpandMoreIcon />
-      </div>
+    <>
+      <Boards />
 
-      <div className='sidebar__channels'>
-        <div className='sidebar__channelsHeader'>
-          <div className='sidebar__header'>
-            <ExpandMoreIcon />
-            <h4>Text Channels</h4>
-          </div>
-          <AddIcon onClick={handleAddChannel} className='sidebar__addChannel' />
+      <div className='sidebar'>
+        <div className='sidebar__top'>
+          <h3>{boardName}</h3>
+          <ExpandMoreIcon />
         </div>
 
-        <div className='sidebar__channelsList'>
-          {channels.map(({ id, channel }) => (
-            <SidebarChannel
-              key={id}
-              id={id}
-              channelName={channel.channelName}
+        <div className='sidebar__channels'>
+          <div className='sidebar__channelsHeader'>
+            <div className='sidebar__header'>
+              <ExpandMoreIcon />
+              <h4>Text Channels</h4>
+            </div>
+            <AddIcon
+              onClick={handleAddChannel}
+              className='sidebar__addChannel'
             />
-          ))}
+          </div>
+
+          <div className='sidebar__channelsList'>
+            {channels.map(({ id, channel }) => (
+              <SidebarChannel
+                key={id}
+                id={id}
+                channelName={channel.channelName}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className='sidebar__profile'>
+          <Avatar src={user.photo} />
+          <div className='sidebar__profileInfo'>
+            <h3>{user.displayName}</h3>
+            <p>#{user.uid.substring(0, 5)}</p>
+          </div>
+
+          <div className='sidebar__profileIcons'>
+            <MicIcon />
+            <HeadsetIcon />
+            <Link to='settings'>
+              <SettingsIcon />
+            </Link>
+          </div>
         </div>
       </div>
-
-      <div className='sidebar__profile'>
-        <Avatar src={user.photo} />
-        <div className='sidebar__profileInfo'>
-          <h3>{user.displayName}</h3>
-          <p>#{user.uid.substring(0, 5)}</p>
-        </div>
-
-        <div className='sidebar__profileIcons'>
-          <MicIcon />
-          <HeadsetIcon />
-          <Link to='settings'>
-            <SettingsIcon />
-          </Link>
-        </div>
-      </div>
-    </div>
+    </>
   );
 }
 
