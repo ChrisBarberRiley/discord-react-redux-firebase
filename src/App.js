@@ -37,18 +37,20 @@ function App() {
                 boardId: board,
               })
             );
-          });
-
-        db.collection('boards')
-          .doc(board)
-          .get()
-          .then((docRef) => {
-            dispatch(
-              setBoardName({
-                boardName: docRef.data().boardName,
+          })
+          .then(
+            db
+              .collection('boards')
+              .doc(board)
+              .get()
+              .then((docRef) => {
+                dispatch(
+                  setBoardName({
+                    boardName: docRef.data().boardName,
+                  })
+                );
               })
-            );
-          });
+          );
       } else {
         dispatch(logout());
       }
@@ -75,6 +77,9 @@ function App() {
         </Route>
         <Route path='/settings'>
           <Settings />
+        </Route>
+        <Route path='/login'>
+          <Login />
         </Route>
       </Switch>
     </Router>
